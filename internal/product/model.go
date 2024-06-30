@@ -1,7 +1,7 @@
-package models
+package product
 
 type Product struct {
-	Id       string
+	ID       int
 	Title    string
 	Subtitle string
 	ImageUrl string
