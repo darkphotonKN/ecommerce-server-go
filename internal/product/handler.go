@@ -5,8 +5,8 @@ import (
 	"net/http"
 )
 
+// Products
 func GetProducts(w http.ResponseWriter, r *http.Request) {
-
 	// handle incorrect method handling
 	if r.Method != http.MethodGet {
 		http.Error(w, "Method not allowed.", http.StatusMethodNotAllowed)
@@ -22,7 +22,7 @@ func GetProducts(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(products)
 }
 
-// for trending products
+// Trending Products
 func GetTrendingProducts(w http.ResponseWriter, r *http.Request) {
 	if r.Method != http.MethodGet {
 		http.Error(w, "Method not allowed for Get Trending Products", http.StatusNotFound)
