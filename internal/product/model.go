@@ -6,3 +6,7 @@ type Product struct {
 	Subtitle string `json:"subtitle"`
 	ImageUrl string `json:"imageUrl"`
 }
+
+type ProductId struct {
+	ID int `json:"id"`
+}

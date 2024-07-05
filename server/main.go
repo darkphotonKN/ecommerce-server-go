@@ -1,24 +1,54 @@
 package main
 
 import (
-	// "encoding/json"
+	"fmt"
 	"log"
-	"meow-commerce-server/internal/product"
 	"net/http"
+	"time"
 )
 
+type config struct {
+	port int
+	env  string
+	db   struct {
+		dsn string
+	}
+}
+
+type application struct {
+	config config
+}
+
+func (app *application) serve() error {
+
+	srv := &http.Server{
+		Addr:              fmt.Sprintf(":%d", app.config.port),
+		Handler:           app.routes(),
+		IdleTimeout:       30 * time.Second,
+		ReadTimeout:       10 * time.Second,
+		ReadHeaderTimeout: 5 * time.Second,
+		WriteTimeout:      5 * time.Second,
+	}
+
+	fmt.Println("Server running on", app.config.port)
+	return srv.ListenAndServe()
+}
+
 func main() {
-	// Products Route
-	http.HandleFunc("/api/products", product.GetProducts)
-	http.HandleFunc("/api/products/trending", product.GetTrendingProducts)
+	config := config{
+		port: 4040,
+	}
 
-	log.Println("Starting server on 4040.")
+	// initialize app
+	app := &application{
+		config: config,
+	}
 
-	if err := http.ListenAndServe(":4040", nil);
+	if err := app.serve();
+
 	// check if error was set
 	err != nil {
 		// throw error
 		log.Fatalf("Could not start server %v", err)
-
 	}
 }

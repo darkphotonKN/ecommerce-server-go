@@ -2,6 +2,7 @@ package product
 
 import (
 	"encoding/json"
+	"log"
 	"net/http"
 )
 
@@ -20,6 +21,38 @@ func GetProducts(w http.ResponseWriter, r *http.Request) {
 
 	// encode products into json and write, checking if there is an error
 	json.NewEncoder(w).Encode(products)
+}
+
+// Get Single Product with ID
+func GetProductById(w http.ResponseWriter, r *http.Request) {
+	var productId ProductId
+	// get body from request
+	body := r.Body
+	err := json.NewDecoder(body).Decode(&productId)
+
+	if err != nil {
+		log.Println("Error when decoding json.")
+	}
+
+	products := GetAllProducts()
+
+	// loop and return product
+	var productFound Product
+	for _, product := range products {
+		if product.ID == productId.ID {
+			productFound = product
+		}
+	}
+
+	out, err := json.Marshal(productFound)
+
+	if err != nil {
+		log.Println("Error when marshalled json.")
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+
+	w.Write(out)
 }
 
 // Trending Products
