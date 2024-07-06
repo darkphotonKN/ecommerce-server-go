@@ -24,7 +24,7 @@ func (app *application) routes() http.Handler {
 
 	// Payment Intent Route
 	mux.Get("/api/product", product.GetProducts)
-	mux.Post("/api/product/{id}", product.GetProductById)
+	mux.Get("/api/product/{id}", product.GetProductById)
 	mux.Get("/api/product/trending", product.GetTrendingProducts)
 
 	return mux

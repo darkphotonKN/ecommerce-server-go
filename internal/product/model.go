@@ -5,19 +5,15 @@ type Product struct {
 	Title    string `json:"title"`
 	Subtitle string `json:"subtitle"`
 	ImageUrl string `json:"imageUrl"`
+	Price    int    `json:"price"`
+	Rating   int    `json:"rating"`
+	Weight   int    `json:"weight"`
+	Detail   string `json:"detail"`
 }
 
-type ProductId struct {
-	ID int `json:"id"`
-}
-
-type ProductDetail struct {
+type ProductSummary struct {
 	ID       int    `json:"id"`
 	Title    string `json:"title"`
 	Subtitle string `json:"subtitle"`
 	ImageUrl string `json:"imageUrl"`
-	price    int    `json:"price"`
-	rating   int    `json:"rating"`
-	weight   int    `json:"weight"`
-	detail   string `json:"detail"`
 }

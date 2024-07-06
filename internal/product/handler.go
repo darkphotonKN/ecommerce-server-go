@@ -2,6 +2,7 @@ package product
 
 import (
 	"encoding/json"
+	"fmt"
 	"log"
 	"net/http"
 	"strconv"
@@ -14,11 +15,29 @@ func GetProducts(w http.ResponseWriter, r *http.Request) {
 	// get data from database
 	products := GetAllProducts()
 
+	// convert products to only productSummaries for list showcase
+	var productSummaryList []ProductSummary
+
+	for _, product := range products {
+		productSummaryList = append(productSummaryList, ProductSummary{
+			ID:       product.ID,
+			Title:    product.Title,
+			Subtitle: product.Subtitle,
+			ImageUrl: product.ImageUrl,
+		})
+	}
+
+	out, err := json.Marshal(productSummaryList)
+
+	if err != nil {
+		fmt.Println("Error when attempting to marshal json:", productSummaryList)
+	}
+
 	// set headers
 	w.Header().Set("Content-Type", "application/json")
 
-	// encode products into json and write, checking if there is an error
-	json.NewEncoder(w).Encode(products)
+	// return response
+	w.Write(out)
 }
 
 // Get Single Product with ID
@@ -63,9 +82,29 @@ func GetProductById(w http.ResponseWriter, r *http.Request) {
 // Trending Products
 func GetTrendingProducts(w http.ResponseWriter, r *http.Request) {
 	// get data from database
+	products := GetAllProducts()
+
+	// convert products to only productSummaries for list showcase
+	var productSummaryList []ProductSummary
+
+	for _, product := range products {
+		productSummaryList = append(productSummaryList, ProductSummary{
+			ID:       product.ID,
+			Title:    product.Title,
+			Subtitle: product.Subtitle,
+			ImageUrl: product.ImageUrl,
+		})
+	}
+
+	out, err := json.Marshal(productSummaryList)
+
+	if err != nil {
+		fmt.Println("Error when attempting to marshal json:", productSummaryList)
+	}
+
+	// set headers
 	w.Header().Set("Content-Type", "application/json")
 
-	products := GetAllTrendingProducts()
-
-	json.NewEncoder(w).Encode(products)
+	// return response
+	w.Write(out)
 }
