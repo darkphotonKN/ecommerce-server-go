@@ -4,15 +4,13 @@ import (
 	"encoding/json"
 	"log"
 	"net/http"
+	"strconv"
+
+	"github.com/go-chi/chi/v5"
 )
 
 // Products
 func GetProducts(w http.ResponseWriter, r *http.Request) {
-	// handle incorrect method handling
-	if r.Method != http.MethodGet {
-		http.Error(w, "Method not allowed.", http.StatusMethodNotAllowed)
-	}
-
 	// get data from database
 	products := GetAllProducts()
 
@@ -25,7 +23,9 @@ func GetProducts(w http.ResponseWriter, r *http.Request) {
 
 // Get Single Product with ID
 func GetProductById(w http.ResponseWriter, r *http.Request) {
-	var productId ProductId
+	// get the product Id
+	productId := chi.URLParam(r, "id")
+
 	// get body from request
 	body := r.Body
 	err := json.NewDecoder(body).Decode(&productId)
@@ -39,8 +39,13 @@ func GetProductById(w http.ResponseWriter, r *http.Request) {
 	// loop and return product
 	var productFound Product
 	for _, product := range products {
-		if product.ID == productId.ID {
+		id, _ := strconv.ParseInt(productId, 10, 64)
+
+		if int64(product.ID) == id {
 			productFound = product
+
+			// stop redundant loops
+			break
 		}
 	}
 
@@ -57,10 +62,6 @@ func GetProductById(w http.ResponseWriter, r *http.Request) {
 
 // Trending Products
 func GetTrendingProducts(w http.ResponseWriter, r *http.Request) {
-	if r.Method != http.MethodGet {
-		http.Error(w, "Method not allowed for Get Trending Products", http.StatusNotFound)
-	}
-
 	// get data from database
 	w.Header().Set("Content-Type", "application/json")
 
