@@ -22,7 +22,7 @@ func (app *application) routes() http.Handler {
 		MaxAge:           300,
 	}))
 
-	// Payment Intent Route
+	// Products Route
 	mux.Get("/api/product", product.GetProducts)
 	mux.Get("/api/product/{id}", product.GetProductById)
 	mux.Get("/api/product/trending", product.GetTrendingProducts)
