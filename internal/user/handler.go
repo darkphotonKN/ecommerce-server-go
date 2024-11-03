@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/darkphotonKN/gin-sqlx-template/internal/models"
+	"github.com/darkphotonKN/ecommerce-server-go/internal/models"
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
 )

@@ -1,6 +1,6 @@
 package user
 
-import "github.com/darkphotonKN/gin-sqlx-template/internal/models"
+import "github.com/darkphotonKN/ecommerce-server-go/internal/models"
 
 type UserResponse struct {
 	models.BaseDBDateModel

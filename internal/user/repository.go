@@ -1,7 +1,7 @@
 package user
 
 import (
-	"github.com/darkphotonKN/gin-sqlx-template/internal/models"
+	"github.com/darkphotonKN/ecommerce-server-go/internal/models"
 	"github.com/google/uuid"
 	"github.com/jmoiron/sqlx"
 )

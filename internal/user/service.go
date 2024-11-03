@@ -3,7 +3,7 @@ package user
 import (
 	"fmt"
 
-	"github.com/darkphotonKN/gin-sqlx-template/internal/models"
+	"github.com/darkphotonKN/ecommerce-server-go/internal/models"
 	"github.com/google/uuid"
 	"golang.org/x/crypto/bcrypt"
 )

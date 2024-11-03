@@ -15,6 +15,17 @@ type User struct {
 	Password string `db:"password" json:"password,omitempty"`
 }
 
+type Product struct {
+	ID       uuid.UUID `db:"id"`
+	Title    string    `db:"title"`
+	Subtitle string    `db:"subtitle"`
+	ImageURL string    `db:"image_url"`
+	Price    int       `db:"price"`
+	Rating   *int      `db:"rating"` // Pointer to handle NULL
+	Weight   int       `db:"weight"`
+	Detail   *string   `db:"detail"` // Pointer to handle NULL
+}
+
 /**
 * Base models for default table columns.
 **/

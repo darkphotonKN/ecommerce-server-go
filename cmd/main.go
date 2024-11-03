@@ -5,7 +5,8 @@ import (
 	"log"
 	"os"
 
-	"github.com/darkphotonKN/gin-sqlx-template/config"
+	"github.com/darkphotonKN/ecommerce-server-go/config"
+	seeder "github.com/darkphotonKN/ecommerce-server-go/internal/utils"
 	"github.com/joho/godotenv"
 )
 
@@ -32,6 +33,10 @@ func main() {
 	if port == "" {
 		port = defaultDevPort
 	}
+
+	// TODO: Remove for production.
+	// Seeding default products for testing.
+	seeder.SeedProducts()
 
 	// starts server and listen on port
 	router.Run(fmt.Sprintf(":%s", port)) // port = ":" + PORT

@@ -3,7 +3,6 @@ module github.com/darkphotonKN/ecommerce-server-go
 go 1.22.3
 
 require (
-	github.com/darkphotonKN/gin-sqlx-template v0.0.0-20241026113248-ff5381e7114a
 	github.com/gin-gonic/gin v1.10.0
 	github.com/google/uuid v1.6.0
 	github.com/jmoiron/sqlx v1.4.0
