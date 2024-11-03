@@ -2,6 +2,7 @@ package product
 
 import (
 	"github.com/darkphotonKN/ecommerce-server-go/internal/models"
+	"github.com/google/uuid"
 	"github.com/jmoiron/sqlx"
 )
 
@@ -15,10 +16,10 @@ func NewProductRepository(db *sqlx.DB) *ProductRepository {
 	}
 }
 
-func (r *ProductRepository) GetProducts() (*[]models.Product, error) {
-	query := `SELECT * FROM products`
+func (r *ProductRepository) GetProducts() (*[]ProductListResponse, error) {
+	query := `SELECT id, title, subtitle, image_url FROM products`
 
-	var products []models.Product
+	var products []ProductListResponse
 
 	err := r.DB.Select(&products, query)
 
@@ -29,10 +30,10 @@ func (r *ProductRepository) GetProducts() (*[]models.Product, error) {
 	return &products, nil
 }
 
-func (r *ProductRepository) GetTrendingProducts() (*[]models.Product, error) {
-	query := `SELECT * FROM products`
+func (r *ProductRepository) GetTrendingProducts() (*[]ProductListResponse, error) {
+	query := `SELECT id, title, subtitle, image_url FROM products`
 
-	var products []models.Product
+	var products []ProductListResponse
 
 	err := r.DB.Select(&products, query)
 
@@ -41,6 +42,20 @@ func (r *ProductRepository) GetTrendingProducts() (*[]models.Product, error) {
 	}
 
 	return &products, nil
+}
+
+func (r *ProductRepository) GetProductById(id uuid.UUID) (*models.Product, error) {
+	query := `SELECT * FROM products WHERE products.id = $1`
+
+	var product models.Product
+
+	err := r.DB.Get(&product, query, id)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return &product, nil
 }
 
 func (r *ProductRepository) CreateProduct(product *models.Product) error {

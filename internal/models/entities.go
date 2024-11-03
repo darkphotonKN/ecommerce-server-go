@@ -16,14 +16,14 @@ type User struct {
 }
 
 type Product struct {
-	ID       uuid.UUID `db:"id"`
-	Title    string    `db:"title"`
-	Subtitle string    `db:"subtitle"`
-	ImageURL string    `db:"image_url"`
-	Price    int       `db:"price"`
-	Rating   *int      `db:"rating"` // Pointer to handle NULL
-	Weight   int       `db:"weight"`
-	Detail   *string   `db:"detail"` // Pointer to handle NULL
+	ID       uuid.UUID `db:"id" json:"id"`
+	Title    string    `db:"title" json:"title"`
+	Subtitle string    `db:"subtitle" json:"subtitle"`
+	ImageURL string    `db:"image_url" json:"image_url"`
+	Price    int       `db:"price" json:"price"`
+	Rating   *int      `db:"rating" json:"rating"`
+	Weight   int       `db:"weight" json:"weight"`
+	Detail   *string   `db:"detail" json:"detail"`
 }
 
 /**

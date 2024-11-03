@@ -8,10 +8,10 @@ endif
 DB_STRING=postgres://$(DB_USER):$(DB_PASSWORD)@$(DB_HOST):$(DB_PORT)/$(DB_NAME)?sslmode=disable
 
 build:
-	@go build -o bin/app ./cmd/
+	@go build -o bin/meowcommerce-app ./cmd/
 
 run: build
-	@./bin/app
+	@./bin/meowcommerce-app
 
 # Run tests with verbose output and coverage
 test:

@@ -1,6 +1,9 @@
 package product
 
-import "github.com/darkphotonKN/ecommerce-server-go/internal/models"
+import (
+	"github.com/darkphotonKN/ecommerce-server-go/internal/models"
+	"github.com/google/uuid"
+)
 
 type ProductService struct {
 	Repo *ProductRepository
@@ -12,14 +15,18 @@ func NewProductService(repo *ProductRepository) *ProductService {
 	}
 }
 
-func (s *ProductService) GetProductsService() (*[]models.Product, error) {
+func (s *ProductService) GetProductsService() (*[]ProductListResponse, error) {
 	return s.Repo.GetProducts()
+}
+
+func (s *ProductService) GetProductById(id uuid.UUID) (*models.Product, error) {
+	return s.Repo.GetProductById(id)
 }
 
 func (s *ProductService) CreateProductService(product *models.Product) error {
 	return s.Repo.CreateProduct(product)
 }
 
-func (s *ProductService) GetTrendingProductsService() (*[]models.Product, error) {
+func (s *ProductService) GetTrendingProductsService() (*[]ProductListResponse, error) {
 	return s.Repo.GetTrendingProducts()
 }

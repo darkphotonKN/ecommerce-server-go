@@ -38,6 +38,7 @@ func SetupRouter() *gin.Engine {
 	productRoutes := api.Group("/product")
 	productRoutes.GET("/", productHandler.GetProductsHandler)
 	productRoutes.GET("/trending", productHandler.GetTrendingProductsHandler)
+	productRoutes.GET("/:id", productHandler.GetProductByIdHandler)
 	productRoutes.POST("/", productHandler.CreateProductsHandler)
 	return router
 }
