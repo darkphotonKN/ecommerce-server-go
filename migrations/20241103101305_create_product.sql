@@ -6,9 +6,9 @@ CREATE TABLE IF NOT EXISTS products (
     subtitle TEXT NOT NULL,
     image_url TEXT NOT NULL,
     price INT NOT NULL,
-    rating INT,        -- Optional
+    rating NUMERIC(3, 1),        
     weight INT NOT NULL,
-    detail TEXT        -- Optional
+    detail TEXT        
 )
 -- +goose StatementEnd
 

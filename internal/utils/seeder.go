@@ -26,18 +26,18 @@ func SeedProducts() {
 	idTwelve, _ := uuid.Parse("dadc7798-9ffb-42a1-b2c6-d7c8ce028cba")
 
 	defaultProducts := []models.Product{
-		{ID: id, Title: "DoggoBites", Subtitle: "Best cookies for your pupper", ImageURL: "test@test.com"},
-		{ID: idTwo, Title: "Kitty Dream Land", Subtitle: "Your kitten's favorite bed.", ImageURL: "test@test.com"},
-		{ID: idThree, Title: "Orca", Subtitle: "Which orca wouldn't enjoy this?", ImageURL: "test@test.com"},
-		{ID: idFour, Title: "Bunny Snacks", Subtitle: "Delicious treats for your rabbit", ImageURL: "bunny@test.com"},
-		{ID: idFive, Title: "Parrot Paradise", Subtitle: "The ultimate perch for your parrot", ImageURL: "parrot@test.com"},
-		{ID: idSix, Title: "Hamster Haven", Subtitle: "A cozy home for your hamster", ImageURL: "hamster@test.com"},
-		{ID: idSeven, Title: "Fishy Flakes", Subtitle: "Nutritious food for your fish", ImageURL: "fish@test.com"},
-		{ID: idEight, Title: "Reptile Retreat", Subtitle: "A perfect hideout for your lizard", ImageURL: "reptile@test.com"},
-		{ID: idNine, Title: "Horse Hoof Care", Subtitle: "Keep your horse's hooves healthy", ImageURL: "horse@test.com"},
-		{ID: idTen, Title: "Guinea Pig Palace", Subtitle: "Luxury living for your guinea pig", ImageURL: "guineapig@test.com"},
-		{ID: idEleven, Title: "Ferret Fun Tunnel", Subtitle: "An exciting play tunnel for your ferret", ImageURL: "ferret@test.com"},
-		{ID: idTwelve, Title: "Turtle Terrarium", Subtitle: "Ideal habitat for your turtle", ImageURL: "turtle@test.com"},
+		{ID: id, Title: "DoggoBites", Subtitle: "Best cookies for your pupper", ImageURL: "test@test.com", Rating: float64Ptr(4.1)},
+		{ID: idTwo, Title: "Kitty Dream Land", Subtitle: "Your kitten's favorite bed.", ImageURL: "test@test.com", Rating: float64Ptr(4.4)},
+		{ID: idThree, Title: "Orca", Subtitle: "Which orca wouldn't enjoy this?", ImageURL: "test@test.com", Rating: float64Ptr(5)},
+		{ID: idFour, Title: "Bunny Snacks", Subtitle: "Delicious treats for your rabbit", ImageURL: "bunny@test.com", Rating: float64Ptr(3.5)},
+		{ID: idFive, Title: "Parrot Paradise", Subtitle: "The ultimate perch for your parrot", ImageURL: "parrot@test.com", Rating: float64Ptr(3.2)},
+		{ID: idSix, Title: "Hamster Haven", Subtitle: "A cozy home for your hamster", ImageURL: "hamster@test.com", Rating: float64Ptr(1.3)},
+		{ID: idSeven, Title: "Fishy Flakes", Subtitle: "Nutritious food for your fish", ImageURL: "fish@test.com", Rating: float64Ptr(3.7)},
+		{ID: idEight, Title: "Reptile Retreat", Subtitle: "A perfect hideout for your lizard", ImageURL: "reptile@test.com", Rating: float64Ptr(4)},
+		{ID: idNine, Title: "Horse Hoof Care", Subtitle: "Keep your horse's hooves healthy", ImageURL: "horse@test.com", Rating: float64Ptr(5.0)},
+		{ID: idTen, Title: "Guinea Pig Palace", Subtitle: "Luxury living for your guinea pig", ImageURL: "guineapig@test.com", Rating: float64Ptr(4.3)},
+		{ID: idEleven, Title: "Ferret Fun Tunnel", Subtitle: "An exciting play tunnel for your ferret", ImageURL: "ferret@test.com", Rating: float64Ptr(3.6)},
+		{ID: idTwelve, Title: "Turtle Terrarium", Subtitle: "Ideal habitat for your turtle", ImageURL: "turtle@test.com", Rating: float64Ptr(3.3)},
 	}
 
 	for _, product := range defaultProducts {
@@ -48,4 +48,8 @@ func SeedProducts() {
 			fmt.Printf("Inserted product %s successfully\n", product.Title)
 		}
 	}
+}
+
+func float64Ptr(f float64) *float64 {
+	return &f
 }
