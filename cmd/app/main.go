@@ -3,17 +3,13 @@ package main
 import (
 	"fmt"
 	"log"
+	"meow-commerce-server/internal/config"
+	"meow-commerce-server/internal/driver"
 	"net/http"
 	"time"
-)
 
-type config struct {
-	port int
-	env  string
-	db   struct {
-		dsn string
-	}
-}
+	"github.com/joho/godotenv"
+)
 
 type application struct {
 	config config
@@ -34,13 +30,24 @@ func (app *application) serve() error {
 }
 
 func main() {
-	config := config{
-		port: 4040,
-	}
+	dsn := "root:12456@tcp(localhost:3308)/virtual_terminal_db?parseTime=true&tls=false"
+
+	dbCfg := config.LoadDBConfig()
+
+	cfg := config.LoadConfig(4040, dbCfg)
+	// dbCfg :=
 
 	// initialize app
 	app := &application{
-		config: config,
+		config: cfg,
+	}
+
+	// initialize db connection
+	_, err := driver.OpenDB(app.config.db.dsn)
+
+	if err != nil {
+		// print DB error
+		log.Fatalf("Could not connect to DB:", err)
 	}
 
 	if err := app.serve();

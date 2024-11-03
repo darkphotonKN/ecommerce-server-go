@@ -1,0 +1,18 @@
+version: "3.1"
+
+services:
+  db:
+    image: mysql:latest
+    container_name: meow-commerce-db
+    environment:
+      MYSQL_ROOT_PASSWORD: 123456
+      MYSQL_DATABASE: meow_commerce_db
+      MYSQL_USER: user
+      MYSQL_PASSWORD: 123456
+    ports:
+      - "3308:3306"
+    volumes:
+      - db-data:/var/lib/mysql
+
+volumes:
+  db-data:
