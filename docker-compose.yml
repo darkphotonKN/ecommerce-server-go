@@ -3,13 +3,13 @@ version: "3.8"
 services:
   db:
     image: postgres:latest
-    container_name: go_gin_sqlx_postgres_db
+    container_name: meow_commerce_db
     environment:
       POSTGRES_USER: user
       POSTGRES_PASSWORD: password
-      POSTGRES_DB: go_gin_sqlx_postgres_db
+      POSTGRES_DB: meow_commerce_db
     ports:
-      - "5555:5432"
+      - "5454:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
 

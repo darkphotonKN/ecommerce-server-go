@@ -15,15 +15,6 @@ type User struct {
 	Password string `db:"password" json:"password,omitempty"`
 }
 
-type Booking struct {
-	BaseDBUserDateModel
-	// FK to User, One to Many Relation
-	UserID    uuid.UUID `db:"user_id" json:"userId"`
-	Status    string    `db:"status" json:"status"`
-	StartDate time.Time `db:"start_date" json:"startDate"`
-	EndDate   time.Time `db:"end_date" json:"endDate"`
-}
-
 /**
 * Base models for default table columns.
 **/

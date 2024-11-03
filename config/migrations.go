@@ -7,6 +7,7 @@ import (
 
 /**
 * Installs and uses uuid extension for *postgres*.
+* NOTE: !!!Currently using goose and not this file for migrations!!!
 **/
 func SetupUUIDExtension(db *sqlx.DB) {
 	query := `CREATE EXTENSION IF NOT EXISTS "uuid-ossp";`
@@ -32,16 +33,6 @@ func RunMigrations(db *sqlx.DB) {
         updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );
 
-
-    CREATE TABLE IF NOT EXISTS bookings (
-        id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-				user_id UUID NOT NULL,
-				start_date TIMESTAMP NOT NULL,
-				end_date TIMESTAMP NOT NULL,
-				status TEXT NOT NULL,
-				created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-				CONSTRAINT fk_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
-    );
     `
 
 	_, err := db.Exec(query)
