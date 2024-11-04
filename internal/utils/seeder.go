@@ -6,12 +6,15 @@ import (
 	"github.com/darkphotonKN/ecommerce-server-go/config"
 	"github.com/darkphotonKN/ecommerce-server-go/internal/models"
 	"github.com/darkphotonKN/ecommerce-server-go/internal/product"
+	"github.com/darkphotonKN/ecommerce-server-go/internal/rating"
 	"github.com/google/uuid"
 )
 
 func SeedProducts() {
+	ratingRepo := rating.NewRatingRepository(config.DB)
+	ratingService := rating.NewRatingService(ratingRepo)
 	productRepo := product.NewProductRepository(config.DB)
-	productService := product.NewProductService(productRepo)
+	productService := product.NewProductService(productRepo, ratingService)
 	id, _ := uuid.Parse("adac23a1-a288-45d9-8be4-27597107d6c2")
 	idTwo, _ := uuid.Parse("276f6ac4-c350-41fc-8389-7949bc1e28ea")
 	idThree, _ := uuid.Parse("9ad35806-c260-4016-9898-e87af6126326")
@@ -45,7 +48,7 @@ func SeedProducts() {
 		prodExists, err := productRepo.GetProductByTitle(product.Title)
 
 		if prodExists != nil {
-			fmt.Println("product exits:", prodExists)
+			fmt.Println("product exists:", prodExists)
 			continue
 		}
 

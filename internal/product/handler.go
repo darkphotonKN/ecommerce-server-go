@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	"github.com/darkphotonKN/ecommerce-server-go/internal/models"
+	"github.com/darkphotonKN/ecommerce-server-go/internal/rating"
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
 )
@@ -23,7 +24,7 @@ func (h *ProductHandler) GetProductsHandler(c *gin.Context) {
 	products, err := h.Service.GetProductsService()
 
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"statusCode": http.StatusInternalServerError, "message": fmt.Sprintf("Error when attempting to get all products: %s", err.Error())})
+		c.JSON(http.StatusBadRequest, gin.H{"statusCode": http.StatusBadRequest, "message": fmt.Sprintf("Error when attempting to get all products: %s", err.Error())})
 		return
 	}
 
@@ -38,7 +39,7 @@ func (h *ProductHandler) GetTrendingProductsHandler(c *gin.Context) {
 	products, err := h.Service.GetProductsService()
 
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"statusCode": http.StatusInternalServerError, "message": fmt.Sprintf("Error when attempting to get all trending products: %s", err.Error())})
+		c.JSON(http.StatusBadRequest, gin.H{"statusCode": http.StatusBadRequest, "message": fmt.Sprintf("Error when attempting to get all trending products: %s", err.Error())})
 		return
 	}
 
@@ -56,14 +57,14 @@ func (h *ProductHandler) GetProductByIdHandler(c *gin.Context) {
 	id, err := uuid.Parse(idParams)
 
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"statusCode": http.StatusInternalServerError, "message": fmt.Sprintf("Error when attempting to parse id as UUID: %s", err.Error())})
+		c.JSON(http.StatusBadRequest, gin.H{"statusCode": http.StatusBadRequest, "message": fmt.Sprintf("Error when attempting to parse id as UUID: %s", err.Error())})
 		return
 	}
 
 	product, err := h.Service.GetProductById(id)
 
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"statusCode": http.StatusInternalServerError, "message": fmt.Sprintf("Error when attempting to create new product: %s", err.Error())})
+		c.JSON(http.StatusBadRequest, gin.H{"statusCode": http.StatusBadRequest, "message": fmt.Sprintf("Error when attempting to create new product: %s", err.Error())})
 		return
 	}
 
@@ -80,14 +81,14 @@ func (h *ProductHandler) CreateProductsHandler(c *gin.Context) {
 	err := c.ShouldBindJSON(&product)
 
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"statusCode": http.StatusInternalServerError, "message": fmt.Sprintf("Error parsing json from the payload: %s", err.Error())})
+		c.JSON(http.StatusBadRequest, gin.H{"statusCode": http.StatusBadRequest, "message": fmt.Sprintf("Error parsing json from the payload: %s", err.Error())})
 		return
 	}
 
 	err = h.Service.CreateProductService(&product)
 
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"statusCode": http.StatusInternalServerError, "message": fmt.Sprintf("Error when attempting to create new product: %s", err.Error())})
+		c.JSON(http.StatusBadRequest, gin.H{"statusCode": http.StatusBadRequest, "message": fmt.Sprintf("Error when attempting to create new product: %s", err.Error())})
 		return
 	}
 
@@ -95,5 +96,34 @@ func (h *ProductHandler) CreateProductsHandler(c *gin.Context) {
 		"statusCode": http.StatusOK,
 		"message":    "Successfully created new product.",
 	})
+}
 
+func (h *ProductHandler) CreateProductRating(c *gin.Context) {
+	var ratingReq rating.RatingRequest
+	err := c.ShouldBindJSON(&ratingReq)
+
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"statusCode": http.StatusBadRequest, "message": fmt.Sprintf("Error parsing json from the payload: %s", err.Error())})
+		return
+	}
+
+	idParam := c.Param("id")
+
+	id, err := uuid.Parse(idParam)
+
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"statusCode": http.StatusBadRequest, "message": fmt.Sprintf("Error when attempting to parse id as UUID: %s", err.Error())})
+		return
+	}
+
+	err = h.Service.PostRatingService(id, ratingReq)
+
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"statusCode": http.StatusBadRequest, "message": fmt.Sprintf("Error when attempting to create new product: %s", err.Error())})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"statusCode": http.StatusOK,
+		"message":    fmt.Sprintf("Successfully created rating product with id: %s", id)})
 }

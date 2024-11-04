@@ -26,6 +26,13 @@ type Product struct {
 	Detail   *string   `db:"detail" json:"detail"`
 }
 
+type Rating struct {
+	ID        uuid.UUID `db:"id" json:"id"`
+	ProductID uuid.UUID `db:"product_id" json:"productId"`
+	Rating    int       `db:"rating" json:"rating"`
+	CreatedAt time.Time `db:"created_at" json:"createdAt"`
+}
+
 /**
 * Base models for default table columns.
 **/

@@ -2,6 +2,7 @@ package config
 
 import (
 	"github.com/darkphotonKN/ecommerce-server-go/internal/product"
+	"github.com/darkphotonKN/ecommerce-server-go/internal/rating"
 	"github.com/darkphotonKN/ecommerce-server-go/internal/user"
 	"github.com/gin-gonic/gin"
 )
@@ -27,11 +28,15 @@ func SetupRouter() *gin.Engine {
 	userRoutes.GET("/:id", userHandler.GetUserByIdHandler)
 	userRoutes.POST("/", userHandler.CreateUserHandler)
 
+	// -- RATING --
+	ratingRepo := rating.NewRatingRepository(DB)
+	ratingService := rating.NewRatingService(ratingRepo)
+
 	// -- PRODUCT --
 
 	// --- Product Setup ---
 	productRepo := product.NewProductRepository(DB)
-	productService := product.NewProductService(productRepo)
+	productService := product.NewProductService(productRepo, ratingService)
 	productHandler := product.NewProductHandler(productService)
 
 	// --- Product Routes ---
@@ -40,5 +45,6 @@ func SetupRouter() *gin.Engine {
 	productRoutes.GET("/trending", productHandler.GetTrendingProductsHandler)
 	productRoutes.GET("/:id", productHandler.GetProductByIdHandler)
 	productRoutes.POST("/", productHandler.CreateProductsHandler)
+	productRoutes.POST("/:id/rate", productHandler.CreateProductRating)
 	return router
 }
