@@ -1,6 +1,9 @@
 package rating
 
 import (
+	"fmt"
+
+	"github.com/darkphotonKN/ecommerce-server-go/internal/models"
 	"github.com/google/uuid"
 	"github.com/jmoiron/sqlx"
 )
@@ -36,4 +39,24 @@ func (r *RatingRepository) CreateRating(productId uuid.UUID, ratingReq RatingReq
 	}
 
 	return nil
+}
+
+func (r *RatingRepository) GetAllRatingsByProductId(productId uuid.UUID) (*[]models.Rating, error) {
+
+	var ratings []models.Rating
+
+	query := `
+	SELECT * FROM ratings
+	WHERE ratings.product_id = $1
+	`
+
+	err := r.DB.Select(&ratings, query, productId)
+
+	fmt.Println("ratings:", ratings)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return &ratings, nil
 }

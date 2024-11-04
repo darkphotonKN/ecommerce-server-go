@@ -1,6 +1,7 @@
 package rating
 
 import (
+	"github.com/darkphotonKN/ecommerce-server-go/internal/models"
 	"github.com/google/uuid"
 )
 
@@ -14,6 +15,16 @@ func NewRatingService(repo *RatingRepository) *RatingService {
 	}
 }
 
+/**
+* Posts single rating for a single product.
+**/
 func (s *RatingService) PostRatingService(productId uuid.UUID, ratingReq RatingRequest) error {
 	return s.Repo.CreateRating(productId, ratingReq)
+}
+
+/**
+* Gets all Ratings.
+**/
+func (s *RatingService) GetAllRatingsForProductService(productId uuid.UUID) (*[]models.Rating, error) {
+	return s.Repo.GetAllRatingsByProductId(productId)
 }

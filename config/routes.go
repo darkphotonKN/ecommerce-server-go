@@ -29,6 +29,8 @@ func SetupRouter() *gin.Engine {
 	userRoutes.POST("/", userHandler.CreateUserHandler)
 
 	// -- RATING --
+
+	// --- Rating Setup ---
 	ratingRepo := rating.NewRatingRepository(DB)
 	ratingService := rating.NewRatingService(ratingRepo)
 

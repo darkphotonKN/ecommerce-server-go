@@ -64,7 +64,7 @@ func (h *ProductHandler) GetProductByIdHandler(c *gin.Context) {
 	product, err := h.Service.GetProductById(id)
 
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"statusCode": http.StatusBadRequest, "message": fmt.Sprintf("Error when attempting to create new product: %s", err.Error())})
+		c.JSON(http.StatusBadRequest, gin.H{"statusCode": http.StatusBadRequest, "message": fmt.Sprintf("Error when attempting to get product: %s", err.Error())})
 		return
 	}
 
