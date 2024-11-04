@@ -58,6 +58,20 @@ func (r *ProductRepository) GetProductById(id uuid.UUID) (*models.Product, error
 	return &product, nil
 }
 
+func (r *ProductRepository) GetProductByTitle(title string) (*models.Product, error) {
+	query := `SELECT * FROM products WHERE products.title = $1`
+
+	var product models.Product
+
+	err := r.DB.Get(&product, query, title)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return &product, nil
+}
+
 func (r *ProductRepository) CreateProduct(product *models.Product) error {
 	query := `
 	INSERT INTO 

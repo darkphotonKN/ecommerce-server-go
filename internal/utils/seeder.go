@@ -41,7 +41,16 @@ func SeedProducts() {
 	}
 
 	for _, product := range defaultProducts {
-		err := productService.CreateProductService(&product)
+
+		prodExists, err := productRepo.GetProductByTitle(product.Title)
+
+		if prodExists != nil {
+			fmt.Println("product exits:", prodExists)
+			continue
+		}
+
+		err = productService.CreateProductService(&product)
+
 		if err != nil {
 			fmt.Printf("Error inserting product %s: %v\n", product.Title, err)
 		} else {
