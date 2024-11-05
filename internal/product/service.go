@@ -20,8 +20,8 @@ func NewProductService(repo *ProductRepository, ratingService *rating.RatingServ
 	}
 }
 
-func (s *ProductService) GetProductsService() (*[]ProductListResponse, error) {
-	return s.Repo.GetProducts()
+func (s *ProductService) GetProductsService(limit, offset int) (*[]ProductListResponse, error) {
+	return s.Repo.GetProducts(limit, offset)
 }
 
 func (s *ProductService) GetProductById(id uuid.UUID) (*models.Product, error) {

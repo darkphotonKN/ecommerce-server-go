@@ -3,10 +3,12 @@ package product
 import (
 	"fmt"
 	"net/http"
+	"strconv"
 
 	"github.com/darkphotonKN/ecommerce-server-go/internal/models"
 	"github.com/darkphotonKN/ecommerce-server-go/internal/rating"
 	"github.com/gin-gonic/gin"
+	"github.com/go-playground/validator/v10"
 	"github.com/google/uuid"
 )
 
@@ -20,8 +22,14 @@ func NewProductHandler(service *ProductService) *ProductHandler {
 	}
 }
 
+var validate = validator.New()
+
 func (h *ProductHandler) GetProductsHandler(c *gin.Context) {
-	products, err := h.Service.GetProductsService()
+	limit, err := strconv.Atoi(c.DefaultQuery("page", "10"))
+	pageNumber, err := strconv.Atoi(c.DefaultQuery("pageNumber", "1"))
+
+	offset := (pageNumber - 1) * limit
+	products, err := h.Service.GetProductsService(limit, offset)
 
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"statusCode": http.StatusBadRequest, "message": fmt.Sprintf("Error when attempting to get all products: %s", err.Error())})
@@ -36,7 +44,10 @@ func (h *ProductHandler) GetProductsHandler(c *gin.Context) {
 }
 
 func (h *ProductHandler) GetTrendingProductsHandler(c *gin.Context) {
-	products, err := h.Service.GetProductsService()
+	limit, err := strconv.Atoi(c.DefaultQuery("limit", "20"))
+	offset, err := strconv.Atoi(c.DefaultQuery("offset", "0"))
+
+	products, err := h.Service.GetProductsService(limit, offset)
 
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"statusCode": http.StatusBadRequest, "message": fmt.Sprintf("Error when attempting to get all trending products: %s", err.Error())})
@@ -82,6 +93,18 @@ func (h *ProductHandler) CreateProductsHandler(c *gin.Context) {
 
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"statusCode": http.StatusBadRequest, "message": fmt.Sprintf("Error parsing json from the payload: %s", err.Error())})
+		return
+	}
+
+	// validation
+	err = validate.Struct(product)
+	if err != nil {
+		validationErrors := err.(validator.ValidationErrors)
+		c.JSON(http.StatusBadRequest, gin.H{
+			"statusCode": http.StatusBadRequest,
+			"message":    "Validation failed",
+			"errors":     validationErrors.Error(),
+		})
 		return
 	}
 

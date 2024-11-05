@@ -16,12 +16,16 @@ func NewProductRepository(db *sqlx.DB) *ProductRepository {
 	}
 }
 
-func (r *ProductRepository) GetProducts() (*[]ProductListResponse, error) {
-	query := `SELECT id, title, subtitle, image_url FROM products`
+func (r *ProductRepository) GetProducts(limit, offset int) (*[]ProductListResponse, error) {
+	query := `
+		SELECT id, title, subtitle, image_url 
+		FROM products 
+		LIMIT $1
+		OFFSET $2`
 
 	var products []ProductListResponse
 
-	err := r.DB.Select(&products, query)
+	err := r.DB.Select(&products, query, limit, offset)
 
 	if err != nil {
 		return nil, err
@@ -79,7 +83,7 @@ func (r *ProductRepository) CreateProduct(product *models.Product) error {
 	VALUES (:title, :subtitle, :image_url, :price, :rating, :weight, :detail)
 	`
 
-	_, err := r.DB.NamedQuery(query, product)
+	_, err := r.DB.NamedExec(query, product)
 
 	if err != nil {
 		return err

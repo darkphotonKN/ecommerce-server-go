@@ -17,12 +17,12 @@ type User struct {
 
 type Product struct {
 	ID       uuid.UUID `db:"id" json:"id"`
-	Title    string    `db:"title" json:"title"`
-	Subtitle string    `db:"subtitle" json:"subtitle"`
-	ImageURL string    `db:"image_url" json:"image_url"`
-	Price    int       `db:"price" json:"price"`
-	Rating   *float64  `db:"rating" json:"rating"`
-	Weight   int       `db:"weight" json:"weight"`
+	Title    string    `db:"title" json:"title" validate:"required"`
+	Subtitle string    `db:"subtitle" json:"subtitle" validate:"required"`
+	ImageURL string    `db:"image_url" json:"image_url" validate:"required,url"`
+	Price    int       `db:"price" json:"price" validate:"required,min=1"`
+	Rating   *float64  `db:"rating" json:"rating" validate:"omitempty,gte=0,lte=5"`
+	Weight   int       `db:"weight" json:"weight" validate:"required"`
 	Detail   *string   `db:"detail" json:"detail"`
 }
 
