@@ -25,8 +25,8 @@ func NewProductHandler(service *ProductService) *ProductHandler {
 var validate = validator.New()
 
 func (h *ProductHandler) GetProductsHandler(c *gin.Context) {
-	limit, err := strconv.Atoi(c.DefaultQuery("page", "10"))
-	pageNumber, err := strconv.Atoi(c.DefaultQuery("pageNumber", "1"))
+	limit, err := strconv.Atoi(c.DefaultQuery("pageSize", "1000"))
+	pageNumber, err := strconv.Atoi(c.DefaultQuery("pageNo", "1"))
 
 	offset := (pageNumber - 1) * limit
 	products, err := h.Service.GetProductsService(limit, offset)

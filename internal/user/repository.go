@@ -44,3 +44,16 @@ func (r *UserRepository) GetById(id uuid.UUID) (*models.User, error) {
 
 	return &user, nil
 }
+
+func (r *UserRepository) GetUserByEmail(email string) (*models.User, error) {
+	var user models.User
+	query := `SELECT * FROM users WHERE users.email = $1`
+
+	err := r.DB.Get(&user, query, email)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return &user, nil
+}

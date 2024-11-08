@@ -37,6 +37,28 @@ func (h *UserHandler) CreateUserHandler(c *gin.Context) {
 	c.JSON(http.StatusCreated, gin.H{"statusCode": http.StatusCreated, "message": "Successfully created user."})
 }
 
+func (h *UserHandler) LoginUserHandler(c *gin.Context) {
+	var loginReq UserLoginRequest
+
+	err := c.ShouldBindJSON(&loginReq)
+
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"statusCode": http.StatusBadRequest, "message": fmt.Sprintf("Error when unmarshalling json payload: %s\n", err)})
+		return
+	}
+
+	user, err := h.Service.LoginUserService(loginReq)
+
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"statusCode": http.StatusBadRequest, "message": fmt.Sprintf("Error when attempting to login user: %s\n", err)})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"statusCode": http.StatusOK, "message": "Successfully logged in.",
+		// de-reference to return the user struct, not pointer
+		"result": user})
+}
+
 func (h *UserHandler) GetUserByIdHandler(c *gin.Context) {
 	// get id from param
 	idParam := c.Param("id")
@@ -59,7 +81,6 @@ func (h *UserHandler) GetUserByIdHandler(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, gin.H{"statusCode": http.StatusOK, "message": "Successfully retreived user.",
-		// de-reference to return the user struct, not pointer
-		"result": *user})
+		"result": user})
 
 }
