@@ -43,8 +43,7 @@ func (s *ProductService) GetProductById(id uuid.UUID) (*models.Product, error) {
 
 	avgRating := s.AverageRatings(ratings)
 
-	// update product
-
+	// update product struct before returning to client
 	product.Rating = avgRating
 
 	return product, nil
