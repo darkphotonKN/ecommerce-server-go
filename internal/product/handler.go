@@ -44,10 +44,10 @@ func (h *ProductHandler) GetProductsHandler(c *gin.Context) {
 }
 
 func (h *ProductHandler) GetTrendingProductsHandler(c *gin.Context) {
-	limit, err := strconv.Atoi(c.DefaultQuery("limit", "20"))
-	offset, err := strconv.Atoi(c.DefaultQuery("offset", "0"))
+	limit, err := strconv.Atoi(c.DefaultQuery("pageSize", "1000"))
+	pageNumber, err := strconv.Atoi(c.DefaultQuery("pageNo", "1"))
 
-	products, err := h.Service.GetProductsService(limit, offset)
+	products, err := h.Service.GetProductsService(limit, pageNumber)
 
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"statusCode": http.StatusBadRequest, "message": fmt.Sprintf("Error when attempting to get all trending products: %s", err.Error())})
